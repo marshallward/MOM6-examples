@@ -15,11 +15,58 @@ AC_CONFIG_SRCDIR([src/core/MOM.F90])
 AC_CONFIG_MACRO_DIR([m4])
 
 
-# Configure the memory layout (default: symmetric grid)
-MEM_LAYOUT=${srcdir}/config_src/memory/dynamic_symmetric
+# MOM6 memory layout configuration
+
+AC_ARG_VAR([MOM_MEMORY],
+  [Path to MOM_memory.h header, describing the field memory layout: dynamic
+   symmetric (default), dynamic asymmetric, or static.]
+)
+
+AS_VAR_IF([MOM_MEMORY], [],
+  [MOM_MEMORY=${srcdir}/config_src/memory/dynamic_symmetric/MOM_memory.h]
+)
+
+# Confirm that MOM_MEMORY is named 'MOM_memory.h'
+AS_IF([test $(basename "${MOM_MEMORY}") == "MOM_memory.h"], [],
+ [AC_MSG_ERROR([MOM_MEMORY header ${MOM_MEMORY} must be named 'MOM_memory.h'])]
+)
+
+# Confirm that the file exists
+AC_CHECK_FILE(["$MOM_MEMORY"], [],
+  [AC_MSG_ERROR([MOM_MEMORY header ${MOM_MEMORY} not found.])]
+)
+
+MOM_MEMORY_DIR=$(AS_DIRNAME(["${MOM_MEMORY}"]))
+AC_SUBST([MOM_MEMORY_DIR])
 
 
-# Default to solo_driver
+# SIS2 memory layout configuration
+
+AC_ARG_VAR([SIS_MEMORY],
+  [Path to SIS2_memory.h header, describing the field memory layout: dynamic
+   symmetric (default), dynamic asymmetric, or static.]
+)
+
+# For now, we assume that SIS2 source is in the same directory as MOM6
+AS_VAR_IF([SIS_MEMORY], [],
+  [SIS_MEMORY=${srcdir}/../SIS2/config_src/dynamic_symmetric/SIS2_memory.h]
+)
+
+# Confirm that SIS_MEMORY is named 'SIS2_memory.h'
+AS_IF([test $(basename "${SIS_MEMORY}") == "SIS2_memory.h"], [],
+  [AC_MSG_ERROR([SIS_MEMORY header ${SIS_MEMORY} must be named 'SIS2_memory.h'])]
+)
+
+# Confirm that the file exists
+AC_CHECK_FILE(["$SIS_MEMORY"], [],
+  [AC_MSG_ERROR([SIS_MEMORY header ${SIS_MEMORY} not found.])]
+)
+
+SIS_MEMORY_DIR=$(AS_DIRNAME(["${SIS_MEMORY}"]))
+AC_SUBST([SIS_MEMORY_DIR])
+
+
+# Driver configuration
 DRIVER_DIR=${srcdir}/config_src/drivers/solo_driver
 AC_ARG_WITH([driver],
   AS_HELP_STRING(
@@ -210,9 +257,14 @@ AC_SUBST([MAKEDEP])
 
 
 # Generate source list and configure dependency command
-AC_SUBST([SRC_DIRS],
-    ["${srcdir}/src ${MODEL_FRAMEWORK} ${srcdir}/config_src/external ${DRIVER_DIR} ${MEM_LAYOUT}"]
-)
+AC_SUBST([SRC_DIRS], ["\\
+  ${srcdir}/src \\
+  ${MODEL_FRAMEWORK} \\
+  ${srcdir}/config_src/external \\
+  ${DRIVER_DIR} \\
+  ${MOM_MEMORY_DIR} \\
+  ${SIS_MEMORY_DIR}"
+])
 AC_CONFIG_COMMANDS(Makefile.dep, [make depend])
 
 

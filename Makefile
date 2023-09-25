@@ -164,6 +164,7 @@ run.ocean_only: $(foreach e,$(call EXPT_DIRS,ocean_only),\
 # Cleanup
 
 clean: $(foreach model,$(MODELS),$(model).clean)
+	rm -rf build
 
 define MODEL_CLEAN_RULE
 .PHONY: $(1).clean

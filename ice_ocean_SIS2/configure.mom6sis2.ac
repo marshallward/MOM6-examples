@@ -1,5 +1,4 @@
 # Autoconf configuration
-
 AC_PREREQ([2.63])
 
 AC_INIT(
@@ -10,13 +9,14 @@ AC_INIT(
   [https://github.com/NOAA-GFDL/MOM6]
 )
 
+
 # Validate srdcir and configure input
 AC_CONFIG_SRCDIR([../src/core/MOM.F90])
 AC_CONFIG_MACRO_DIR([m4])
 srcdir=$srcdir/..
 
 
-# Configure the memory layout header
+# MOM6 memory layout configuration
 
 AC_ARG_VAR([MOM_MEMORY],
   [Path to MOM_memory.h header, describing the field memory layout: dynamic
@@ -41,7 +41,7 @@ MOM_MEMORY_DIR=$(AS_DIRNAME(["${MOM_MEMORY}"]))
 AC_SUBST([MOM_MEMORY_DIR])
 
 
-# Repeat for SIS2
+# SIS2 memory layout configuration
 
 AC_ARG_VAR([SIS_MEMORY],
   [Path to SIS2_memory.h header, describing the field memory layout: dynamic
@@ -67,7 +67,7 @@ SIS_MEMORY_DIR=$(AS_DIRNAME(["${SIS_MEMORY}"]))
 AC_SUBST([SIS_MEMORY_DIR])
 
 
-# Default to solo_driver
+# Driver configuration
 DRIVER_DIR=${srcdir}/config_src/drivers/solo_driver
 AC_ARG_WITH([driver],
   AS_HELP_STRING(
@@ -77,6 +77,7 @@ AC_ARG_WITH([driver],
 )
 AS_IF([test "x$with_driver" != "x"],
   [DRIVER_DIR=${srcdir}/config_src/drivers/${with_driver}])
+
 
 # Select the model framework (default: FMS1)
 # NOTE: We can phase this out after the FMS1 I/O has been removed from FMS and
@@ -92,8 +93,8 @@ AS_CASE(["$with_framework"],
 
 
 # Explicitly assume free-form Fortran
-AC_LANG(Fortran)
-AC_FC_SRCEXT(f90)
+AC_LANG([Fortran])
+AC_FC_SRCEXT([f90])
 
 
 # Determine MPI compiler wrappers
