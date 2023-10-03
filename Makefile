@@ -84,6 +84,18 @@ coupled_AM2_LM3_SIS2.asymmetric: fms AM2 LM3 ice_param icebergs
 
 # TODO: Coupled asymmetric?
 
+# testing
+.PHONY: fms.main
+fms.main: src/FMS_main
+	$(MAKE) -C shared/fms \
+	  BUILD=../../$(BUILD)/fms_main \
+	  CODEBASE=../../src/FMS_main
+
+src/FMS_main:
+	git -C src/ clone https://github.com/NOAA-GFDL/FMS.git FMS_main
+	git -C src/FMS_main checkout main
+
+
 # Libraries
 
 .PHONY: fms
