@@ -85,10 +85,17 @@ coupled_AM2_LM3_SIS2.asymmetric: fms AM2 LM3 ice_param icebergs
 # TODO: Coupled asymmetric?
 
 # testing
+.PHONY: ocean_only.main
+ocean_only.main: fms.main
+	$(MAKE) -C ocean_only \
+	  BUILD=../$(BUILD)/main/ocean_only.main \
+	  FMS_BUILD=../$(BUILD)/main/fms \
+	  FMS_FRAMEWORK=fms2
+
 .PHONY: fms.main
 fms.main: src/FMS_main
 	$(MAKE) -C shared/fms \
-	  BUILD=../../$(BUILD)/fms_main \
+	  BUILD=../../$(BUILD)/main/fms \
 	  CODEBASE=../../src/FMS_main
 
 src/FMS_main:

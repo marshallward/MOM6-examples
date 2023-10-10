@@ -1,6 +1,7 @@
 # Build configuration
 BUILD ?= build
 MOM_MEMORY ?=
+FMS_FRAMEWORK ?=
 
 # Dependencies
 FMS_BUILD ?= ../shared/fms/$(BUILD)
@@ -30,6 +31,9 @@ CONFIG_FLAGS := --config-cache
 CONFIG_FLAGS += --srcdir=$(abspath $(CODEBASE))/ac
 ifdef MOM_MEMORY
   CONFIG_FLAGS += MOM_MEMORY=$(abspath $(MOM_MEMORY))
+endif
+ifdef FMS_FRAMEWORK
+  CONFIG_FLAGS += --with-framework=$(FMS_FRAMEWORK)
 endif
 
 # NOTE: `export FCFLAGS` overwrites the autoconf default.  We restore it here.
