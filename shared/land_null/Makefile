@@ -1,9 +1,9 @@
 # Configuration
 BUILD ?= build
 FMS_BUILD ?= ../fms/$(BUILD)
+CODEBASE ?= ../../src/land_null
 
 TARGET = libland_null.a
-CODEBASE = ../../src/land_null
 CONFIGURE_AC = ../config/configure.land_null.ac
 
 FCFLAGS += -I$(abspath $(FMS_BUILD))

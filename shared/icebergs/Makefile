@@ -1,8 +1,8 @@
 # Configuration
 BUILD ?= build
 FMS_BUILD ?= ../fms/$(BUILD)
+CODEBASE ?= ../../src/icebergs/src
 
-CODEBASE = ../../src/icebergs/src
 TARGET = libicebergs.a
 CONFIGURE_AC = ../config/configure.icebergs.ac
 

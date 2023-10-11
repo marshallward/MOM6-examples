@@ -1,8 +1,8 @@
 # Configuration
 BUILD ?= build
 FMS_BUILD ?= ../fms/$(BUILD)
+CODEBASE ?= ../../src/ice_param
 
-CODEBASE = ../../src/ice_param
 TARGET = libice_param.a
 CONFIGURE_AC = ../config/configure.ice_param.ac
 

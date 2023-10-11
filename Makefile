@@ -82,8 +82,6 @@ coupled_AM2_LM3_SIS2.asymmetric: fms AM2 LM3 ice_param icebergs
 	  MOM_MEMORY=../src/MOM6/config_src/memory/dynamic_nonsymmetric/MOM_memory.h \
 	  SIS_MEMORY=../src/SIS2/config_src/dynamic/SIS2_memory.h
 
-# TODO: Coupled asymmetric?
-
 #---------
 #---------
 
@@ -120,6 +118,7 @@ src/main/atmos_null:
 	git -C src/main clone https://github.com/NOAA-GFDL/atmos_null.git
 	git -C src/main/atmos_null checkout master
 
+
 .PHONY: land_null.main
 land_null.main: fms.main src/main/land_null
 	$(MAKE) -C shared/land_null \
@@ -131,6 +130,7 @@ src/main/land_null:
 	mkdir -p src/main
 	git -C src/main clone https://github.com/NOAA-GFDL/land_null.git
 	git -C src/main/land_null checkout master
+
 
 .PHONY: ice_param.main
 ice_param.main: fms.main src/main/ice_param
@@ -144,11 +144,19 @@ src/main/ice_param:
 	git -C src/main clone https://github.com/NOAA-GFDL/ice_param.git
 	git -C src/main/ice_param checkout master
 
-.PHONY: icebergs
-icebergs: fms
+
+.PHONY: icebergs.main
+icebergs.main: fms.main src/main/icebergs
+	CPPFLAGS="-DUSE_FMS2_IO" \
 	$(MAKE) -C shared/icebergs \
-	  BUILD=../../$(BUILD)/icebergs \
-	  FMS_BUILD=../../$(BUILD)/fms
+	  BUILD=../../$(BUILD)/main/icebergs \
+	  FMS_BUILD=../../$(BUILD)/main/fms \
+	  CODEBASE=../../src/main/icebergs/src
+
+src/main/icebergs:
+	mkdir -p src/main
+	git -C src/main clone https://github.com/NOAA-GFDL/icebergs.git
+	git -C src/main/icebergs checkout dev/gfdl
 
 
 .PHONY: fms.main
