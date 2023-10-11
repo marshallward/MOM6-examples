@@ -84,13 +84,72 @@ coupled_AM2_LM3_SIS2.asymmetric: fms AM2 LM3 ice_param icebergs
 
 # TODO: Coupled asymmetric?
 
+#---------
+#---------
+
 # testing
 .PHONY: ocean_only.main
 ocean_only.main: fms.main
 	$(MAKE) -C ocean_only \
-	  BUILD=../$(BUILD)/main/ocean_only.main \
+	  BUILD=../$(BUILD)/main/ocean_only \
 	  FMS_BUILD=../$(BUILD)/main/fms \
 	  FMS_FRAMEWORK=fms2
+
+
+.PHONY: ice_ocean_SIS2.main
+ice_ocean_SIS2.main: fms.main atmos_null.main land_null.main ice_param.main icebergs.main
+	$(MAKE) -C ice_ocean_SIS2 \
+	  BUILD=../$(BUILD)/main/ice_ocean_SIS2 \
+	  FMS_BUILD=../$(BUILD)/main/fms \
+	  ATMOS_BUILD=../$(BUILD)/main/atmos_null \
+	  ICEBERGS_BUILD=../$(BUILD)/main/icebergs \
+	  ICE_PARAM_BUILD=../$(BUILD)/main/ice_param \
+	  LAND_BUILD=../$(BUILD)/main/land_null \
+	  FMS_FRAMEWORK=fms2
+
+
+.PHONY: atmos_null.main
+atmos_null.main: fms.main src/main/atmos_null
+	$(MAKE) -C shared/atmos_null \
+	  BUILD=../../$(BUILD)/main/atmos_null \
+	  FMS_BUILD=../../$(BUILD)/main/fms \
+	  CODEBASE=../../src/main/atmos_null
+
+src/main/atmos_null:
+	mkdir -p src/main
+	git -C src/main clone https://github.com/NOAA-GFDL/atmos_null.git
+	git -C src/main/atmos_null checkout master
+
+.PHONY: land_null.main
+land_null.main: fms.main src/main/land_null
+	$(MAKE) -C shared/land_null \
+	  BUILD=../../$(BUILD)/main/land_null \
+	  FMS_BUILD=../../$(BUILD)/main/fms \
+	  CODEBASE=../../src/main/land_null
+
+src/main/land_null:
+	mkdir -p src/main
+	git -C src/main clone https://github.com/NOAA-GFDL/land_null.git
+	git -C src/main/land_null checkout master
+
+.PHONY: ice_param.main
+ice_param.main: fms.main src/main/ice_param
+	$(MAKE) -C shared/ice_param \
+	  BUILD=../../$(BUILD)/main/ice_param \
+	  FMS_BUILD=../../$(BUILD)/main/fms \
+	  CODEBASE=../../src/main/ice_param
+
+src/main/ice_param:
+	mkdir -p src/main
+	git -C src/main clone https://github.com/NOAA-GFDL/ice_param.git
+	git -C src/main/ice_param checkout master
+
+.PHONY: icebergs
+icebergs: fms
+	$(MAKE) -C shared/icebergs \
+	  BUILD=../../$(BUILD)/icebergs \
+	  FMS_BUILD=../../$(BUILD)/fms
+
 
 .PHONY: fms.main
 fms.main: src/FMS_main
@@ -101,6 +160,9 @@ fms.main: src/FMS_main
 src/FMS_main:
 	git -C src/ clone https://github.com/NOAA-GFDL/FMS.git FMS_main
 	git -C src/FMS_main checkout main
+
+#---------
+#---------
 
 
 # Libraries

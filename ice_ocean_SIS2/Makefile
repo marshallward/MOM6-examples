@@ -2,6 +2,7 @@
 BUILD ?= build
 MOM_MEMORY ?=
 SIS_MEMORY ?=
+FMS_FRAMEWORK ?=
 
 # Dependencies
 FMS_BUILD ?= ../shared/fms/$(BUILD)
@@ -42,6 +43,9 @@ ifdef MOM_MEMORY
 endif
 ifdef SIS_MEMORY
   CONFIG_FLAGS += SIS_MEMORY=$(abspath $(SIS_MEMORY))
+endif
+ifdef FMS_FRAMEWORK
+  CONFIG_FLAGS += --with-framework=$(FMS_FRAMEWORK)
 endif
 
 # NOTE: MOM_FCFLAGS overwrites default; we restore it here
