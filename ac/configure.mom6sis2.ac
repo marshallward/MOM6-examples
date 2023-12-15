@@ -323,6 +323,11 @@ AC_CHECK_SIZEOF([sigjmp_buf], [], [#include <setjmp.h>])
 AC_LANG_POP([C])
 
 
+# Coupler macros
+AC_DEFINE([use_AM3_physics])
+AC_DEFINE([_USE_LEGACY_LAND_])
+
+
 # Prepare output
 AC_SUBST([CPPFLAGS])
 AC_CONFIG_FILES([Makefile:Makefile.in])

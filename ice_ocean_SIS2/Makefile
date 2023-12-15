@@ -47,11 +47,6 @@ endif
 # NOTE: MOM_FCFLAGS overwrites default; we restore it here
 FCFLAGS ?= -g -O2
 
-# Apply coupler preprocessing
-CPPFLAGS += \
-  -Duse_AM3_physics \
-  -D_USE_LEGACY_LAND_
-
 MOM_FCFLAGS := $(FCFLAGS) \
   -I$(abspath $(FMS_BUILD)) \
   -I$(abspath $(ICEBERGS_BUILD)) \
@@ -96,17 +91,12 @@ MAKEFLAGS += -rR
 
 #---
 
-TARGET := MOM6
+TARGET := coupler_main
 
-all: $(BUILD)/$(TARGET)
-
-$(BUILD)/$(TARGET): $(BUILD)/Makefile
+$(BUILD)/coupler_main: FORCE $(BUILD)/Makefile
 	FCFLAGS="${MOM_FCFLAGS}" \
 	LDFLAGS="${MOM_LDFLAGS}" \
 	$(MAKE) -C $(BUILD) coupler_main
-	@# Rename to MOM6 for MRS compatibility
-	@# This can be dropped when MRS is updated (or replaced)
-	mv $(BUILD)/coupler_main $(BUILD)/MOM6
 
 $(BUILD)/Makefile: $(FMS_BUILD)/libFMS.a
 $(BUILD)/Makefile: $(ATMOS_BUILD)/libatmos_null.a
@@ -140,29 +130,31 @@ $(BUILD):
 
 # Dependencies
 
-$(FMS_BUILD)/libFMS.a:
+$(FMS_BUILD)/libFMS.a: FORCE
 	$(MAKE) -C ../shared/fms \
 	  BUILD=$(abspath $(FMS_BUILD))
 
-$(ATMOS_BUILD)/libatmos_null.a: $(FMS_BUILD)/libFMS.a
+$(ATMOS_BUILD)/libatmos_null.a: FORCE $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/atmos_null \
 	  BUILD=$(abspath $(ATMOS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(LAND_BUILD)/libland_null.a: $(FMS_BUILD)/libFMS.a
+$(LAND_BUILD)/libland_null.a: FORCE $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/land_null \
 	  BUILD=$(abspath $(LAND_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(ICE_PARAM_BUILD)/libice_param.a: $(FMS_BUILD)/libFMS.a
+$(ICE_PARAM_BUILD)/libice_param.a: FORCE $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/ice_param \
 	  BUILD=$(abspath $(ICE_PARAM_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
 
-$(ICEBERGS_BUILD)/libicebergs.a: $(FMS_BUILD)/libFMS.a
+$(ICEBERGS_BUILD)/libicebergs.a: FORCE $(FMS_BUILD)/libFMS.a
 	$(MAKE) -C ../shared/icebergs \
 	  BUILD=$(abspath $(ICEBERGS_BUILD)) \
 	  FMS_BUILD=$(abspath $(FMS_BUILD))
+
+FORCE:
 
 #----
 

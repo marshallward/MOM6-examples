@@ -69,7 +69,7 @@ TARGET := MOM6
 
 all: $(BUILD)/$(TARGET)
 
-$(BUILD)/$(TARGET): $(BUILD)/Makefile
+$(BUILD)/$(TARGET): FORCE $(BUILD)/Makefile
 	$(MAKE) -C $(BUILD) $(TARGET)
 
 $(BUILD)/Makefile: $(FMS_BUILD)/libFMS.a
@@ -97,9 +97,11 @@ $(BUILD):
 #----
 # Dependencies
 
-$(FMS_BUILD)/libFMS.a:
+$(FMS_BUILD)/libFMS.a: FORCE
 	$(MAKE) -C ../shared/fms BUILD=$(abspath $(FMS_BUILD))
 
+
+FORCE:
 
 #----
 # Experiments

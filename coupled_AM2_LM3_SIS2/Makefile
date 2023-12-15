@@ -39,9 +39,6 @@ ifdef SIS_MEMORY
   CONFIG_FLAGS += SIS_MEMORY=$(abspath $(SIS_MEMORY))
 endif
 
-# Preprocessor directives
-CPPFLAGS += -Duse_AM3_physics -D_USE_LEGACY_LAND_
-
 # NOTE: MOM_FCFLAGS overwrites default; we restore it here
 FCFLAGS ?= -g -O2
 
@@ -95,7 +92,7 @@ export EXTRA_SRC_DIRS
 
 #----
 
-TARGET = MOM6
+TARGET = coupler_main
 
 all: $(BUILD)/$(TARGET)
 
@@ -103,9 +100,6 @@ $(BUILD)/$(TARGET): $(BUILD)/Makefile
 	FCFLAGS="${MOM_FCFLAGS}" \
 	LDFLAGS="${MOM_LDFLAGS}" \
 	$(MAKE) -C $(BUILD) coupler_main
-	@# Rename to MOM6 for MRS compatibility
-	@# This can be dropped when MRS is updated (or replaced)
-	mv $(BUILD)/coupler_main $(BUILD)/$(TARGET)
 
 $(BUILD)/Makefile: $(FMS_BUILD)/libFMS.a
 $(BUILD)/Makefile: $(AM2_BUILD)/libAM2.a
