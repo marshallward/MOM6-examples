@@ -97,7 +97,7 @@ $(BUILD)/m4: $(M4DIR) | $(BUILD)
 	cp -r $(M4DIR) $(BUILD)
 
 $(BUILD):
-	mkdir -p $(BUILD)
+	mkdir -p $@
 
 
 #----
