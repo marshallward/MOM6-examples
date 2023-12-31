@@ -27,7 +27,6 @@ EXCLUDE ?= \
   SIS2_icebergs \
   SIS2_bergs_cgrid
 
-
 # Autoconf setup
 EXTRA_SRC_DIRS := \
   $(abspath ../src/SIS2/src) \
@@ -54,6 +53,7 @@ MOM_FCFLAGS := $(FCFLAGS) \
   -I$(abspath $(ICE_PARAM_BUILD)) \
   -I$(abspath $(ATMOS_BUILD)) \
   -I$(abspath $(LAND_BUILD))
+
 MOM_LDFLAGS := $(LDFLAGS) \
   -L$(abspath $(FMS_BUILD)) \
   -L$(abspath $(ICEBERGS_BUILD)) \
