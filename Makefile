@@ -23,8 +23,13 @@ MAKEFLAGS += -rR
 
 #---
 
+# Public models
 .PHONY: all
-all: $(MODELS)
+all: ocean_only ice_ocean_SIS2
+
+# GFDL-specific coupled models (requires access to GFDL intranet)
+.PHONY: gfdl
+gfdl: ocean_only ice_ocean_SIS2 coupled_AM2_LM3_SIS2
 
 # Dependencies
 $(MODELS): fms
