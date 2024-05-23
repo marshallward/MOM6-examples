@@ -9,6 +9,9 @@ jobs:
     env:
       CC: gcc
       FC: gfortran
+      # Temporary revert FMS due to GCC 14.1 parsing error
+      FMS_COMMIT: 2019.01.03
+      FRAMEWORK: fms1
 
     steps:
     - uses: actions/checkout@v3
@@ -18,6 +21,7 @@ jobs:
     - uses: ./.github/actions/macos-setup
 
     - name: Compile models
-      run: make -j
+      #run: make -j
+      run: FMS_COMMIT="$FMS_COMMIT" FRAMEWORK="$FRAMEWORK" make -j
 
     # TODO: Run a few of the models and compare parameter.doc files?
