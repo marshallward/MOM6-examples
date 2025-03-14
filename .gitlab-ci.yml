@@ -7,8 +7,19 @@ parameter_files:
     - module unload PrgEnv-intel
     - module unload PrgEnv-nvhpc
     - module load PrgEnv-gnu
-    - module switch gcc-native/12.3
     - module load cray-hdf5
     - module load cray-netcdf
+    - module switch gcc-native/12.3
+
     - git submodule update --init --recursive
+
+    - echo "CC = cc" >> config.mk
+    - echo "MPICC = cc" >> config.mk
+    - echo "FC = ftn" >> config.mk
+    - echo "MPIFC = ftn" >> config.mk
+    - echo "FCFLAGS = -g -O0 -fbacktrace" >> config.mk
+    - echo "LAUNCHER = srun" >> config.mk
+    - echo "LAUNCHER_NP_FLAG = -n" >> config.mk
+    - echo "LAUNCHER_FLAGS = -mblock --exclusive" >> config.mk
+
     - make -j test.ocean_only

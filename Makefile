@@ -1,3 +1,5 @@
+-include config.mk
+
 # Configuration
 BUILD ?=
 
@@ -17,6 +19,10 @@ export FCFLAGS
 export LDFLAGS
 export LIBS
 export PYTHON
+
+export LAUNCHER
+export LAUNCHER_NP_FLAG
+export LAUNCHER_FLAGS
 
 # Disable builtin rules and variables
 MAKEFLAGS += -rR
