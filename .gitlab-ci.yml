@@ -2,4 +2,13 @@ parameter_files:
   tags:
     - mom6-ci-c5
   script:
-    - make -f tools/MRS/Makefile m6e-pipeline -j
+    #- make -f tools/MRS/Makefile m6e-pipeline -j
+    - module unload PrgEnv-gnu
+    - module unload PrgEnv-intel
+    - module unload PrgEnv-nvhpc
+    - module load PrgEnv-gnu
+    - module switch gcc-native/12.3
+    - module load cray-hdf5
+    - module load cray-netcdf
+    - git submodule update --init --recursive
+    - make -j test.ocean_only

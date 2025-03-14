@@ -64,9 +64,7 @@ EXCLUDE ?= \
   ISOMIP/% \
   MESO_025_% \
   rotating_gravity_current/% \
-  buoy_forced_basin \
-  idealized_hurricane \
-  global
+  buoy_forced_basin
 
 
 # Autoconf setup
