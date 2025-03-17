@@ -24,4 +24,22 @@ parameter_files:
     - echo "LAUNCHER_FLAGS = -mblock --exclusive" >> config.mk
     - echo "PYTHON = python3" >> config.mk
 
-    - make -j test.ocean_only
+    - make -j gfdl
+
+    - >
+      sbatch
+      --clusters=c5
+      --nodes=8
+      --time=15:00
+      --account=gfdl_o
+      --qos=debug
+      --job-name=mom6_examples_tests
+      --output=log.$$CI_PIPELINE_ID
+      --wait
+      << EOF
+
+        #!/bin/sh\n
+
+        make -j test.ocean_only\n
+
+        EOF
