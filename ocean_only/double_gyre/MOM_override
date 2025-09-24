@@ -1,1 +1,14 @@
 ! Blank file in which we can put "overrides" for parameters
+!#override NK=5
+!#override NIGLOBAL=88
+!#override NJGLOBAL=80
+!#override NIGLOBAL=176
+!#override NJGLOBAL=160
+
+!VERBOSITY = 9
+
+!DEBUG = True
+!TIMEUNIT = 1200
+!#override DAYMAX = 2
+
+!#override DAYMAX = 20

@@ -40,7 +40,7 @@ BUILD ?= build
 MOM_MEMORY ?=
 
 # Dependencies
-FMS_CODEBASE ?= ../src/FMS2
+FMS_CODEBASE ?= ../src/FMS2_gpu
 FMS_BUILD ?= ../shared/fms/build
 
 # Autoconf configuration
@@ -84,6 +84,8 @@ FCFLAGS ?= -g -O2
 
 FCFLAGS += -I$(abspath $(FMS_BUILD))
 LDFLAGS += -L$(abspath $(FMS_BUILD))
+
+FMS_FCFLAGS ?= $(FCFLAGS)
 
 # Pass autoconf environment variables to submakes
 export CPPFLAGS
@@ -157,6 +159,7 @@ $(BUILD):
 $(FMS_BUILD)/libFMS.a: $(wildcard $(FMS_CODEBASE)/*/*)
 	$(MAKE) -C ../shared/fms \
 	  BUILD=$(abspath $(FMS_BUILD)) \
+	  FCFLAGS="$(FMS_FCFLAGS)" \
 	  CODEBASE=$(abspath $(FMS_CODEBASE))
 
 FORCE:
