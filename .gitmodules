@@ -43,6 +43,3 @@
 [submodule "shared/tools/f90nml"]
 	path = shared/tools/f90nml
 	url = https://github.com/marshallward/f90nml.git
-[submodule "src/src/FMS2_gpu"]
-	path = src/src/FMS2_gpu
-	url = https://github.com/edoyango/FMS/
