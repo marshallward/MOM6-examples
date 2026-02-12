@@ -155,11 +155,10 @@ $(BUILD):
 
 
 # Dependencies
-
+$(FMS_BUILD)/libFMS.a: FCFLAGS := $(FMS_FCFLAGS)
 $(FMS_BUILD)/libFMS.a: $(wildcard $(FMS_CODEBASE)/*/*)
 	$(MAKE) -C ../shared/fms \
 	  BUILD=$(abspath $(FMS_BUILD)) \
-	  FCFLAGS="$(FMS_FCFLAGS)" \
 	  CODEBASE=$(abspath $(FMS_CODEBASE))
 
 FORCE:
