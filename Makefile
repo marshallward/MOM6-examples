@@ -25,7 +25,7 @@
 
 # Configuration
 BUILD ?=
-FMS_CODEBASE ?= src/FMS2
+FMS_CODEBASE ?= src/FMS2_gpu
 
 # Variable `export` replaces the default autoconf values with empty strings.
 # This restores the default values.
