@@ -39,7 +39,8 @@ EXCLUDE ?= \
 EXTRA_SRC_DIRS := \
   $(abspath ../src/SIS2/src) \
   $(abspath ../src/SIS2/config_src/external) \
-  $(abspath ../src/coupler)
+  $(abspath ../src/coupler/shared) \
+  $(abspath ../src/coupler/full)
 
 CONFIG_FLAGS := --config-cache
 CONFIG_FLAGS += --srcdir=$(abspath $(MOM_CODEBASE))
