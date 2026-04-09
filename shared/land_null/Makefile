@@ -6,8 +6,11 @@ TARGET = libland_null.a
 CODEBASE = ../../src/land_null
 CONFIGURE_AC = ../config/configure.land_null.ac
 
-FCFLAGS += -I$(abspath $(FMS_BUILD))
-LDFLAGS += -L$(abspath $(FMS_BUILD))
+$(info FCFLAGS = $(FCFLAGS))
+$(info FMS_BUILD = $(FMS_BUILD))
+override FCFLAGS += -I$(abspath $(FMS_BUILD))
+override LDFLAGS += -L$(abspath $(FMS_BUILD))
+$(info FCFLAGS = $(FCFLAGS))
 
 include ../config/Libs.mk
 

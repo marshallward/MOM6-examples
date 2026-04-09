@@ -6,8 +6,16 @@ CODEBASE = ../../src/icebergs/src
 TARGET = libicebergs.a
 CONFIGURE_AC = ../config/configure.icebergs.ac
 
-FCFLAGS += -I$(abspath $(FMS_BUILD))
-LDFLAGS += -L$(abspath $(FMS_BUILD))
+# TODO: this macro should be determined by autoconf
+$(info CFLAGS = $(CFLAGS))
+$(info FCFLAGS = $(FCFLAGS))
+$(info FMS_BUILD = $(FMS_BUILD))
+override CPPFLAGS += -DUSE_FMS2_IO
+override FCFLAGS += -I$(abspath $(FMS_BUILD))
+override LDFLAGS += -L$(abspath $(FMS_BUILD))
+$(info CFLAGS = $(CFLAGS))
+$(info FCFLAGS = $(FCFLAGS))
+$(info FMS_BUILD = $(FMS_BUILD))
 
 include ../config/Libs.mk
 
