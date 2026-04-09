@@ -1,1 +1,8 @@
 ! Blank file in which we can put "overrides" for parameters
+
+!DEBUG = True
+!#override DAYMAX = 8.
+
+!#override ENERGYSAVEDAYS = 4.
+TIMEUNIT = 900.
+#override DAYMAX = 24.
