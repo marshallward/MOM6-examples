@@ -17,6 +17,63 @@ jobs:
 
     - uses: ./.github/actions/macos-setup
 
+    - name: Check gfortran C interoperability support
+      run: |
+        set -eux
+
+        gfortran --version
+
+        cat > cf.F90 <<'EOF'
+        subroutine f(x) bind(C)
+          use iso_c_binding
+          real(c_double), intent(inout) :: x(..)
+        end subroutine
+        EOF
+
+        gfortran -c cf.F90
+
+        echo '#include <ISO_Fortran_binding.h>' > cfi.c
+        clang -c cfi.c $(gfortran -print-file-name=include | sed 's/^/-I/')
+
+    - name: Diagnose MPI Fortran wrapper
+      shell: bash
+      run: |
+        set -eux
+
+        prefix="$(brew --prefix mpich)"
+        cellar="$(brew --cellar mpich)/5.0.1"
+
+        echo "prefix=$prefix"
+        echo "cellar=$cellar"
+
+        echo "installed MPI module files:"
+        find "$prefix" "$cellar" -name 'mpi*.mod' -print | sort
+
+        which mpifort || true
+        mpifort -show || true
+        mpifort --version || true
+
+        "$prefix/bin/mpichversion"
+        ls -la /opt/homebrew/Cellar/mpich/5.0.1/include | grep -i mpi
+
+        brew --prefix mpich || true
+        find "$(brew --prefix mpich)" -name 'mpi_f08.mod' -o -name 'mpi.mod' || true
+
+        cat > t_mpi.F90 <<'EOF'
+        program t
+          use mpi
+        end program
+        EOF
+
+        cat > t_f08.F90 <<'EOF'
+        program t
+          use mpi_f08
+        end program
+        EOF
+
+        mpifort -c t_mpi.F90
+        mpifort -c t_f08.F90
+
     - name: Compile models
       run: make -j
 
