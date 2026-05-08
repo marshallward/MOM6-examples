@@ -7,10 +7,6 @@ GLOBAL_INDEXING = False         !   [Boolean] default = False
                                 ! static memory.
 
 ! === module MOM_domains ===
-OCEAN_OMP_THREADS = 1           ! default = 1
-                                ! The number of OpenMP threads that MOM6 will use.
-OCEAN_OMP_HYPER_THREAD = False  !   [Boolean] default = False
-                                ! If True, use hyper-threading.
 !SYMMETRIC_MEMORY_ = True       !   [Boolean]
                                 ! If defined, the velocity point data domain includes every face of the
                                 ! thickness points. In other words, some arrays are larger than others,
@@ -40,15 +36,15 @@ MASKTABLE = "MOM_mask_table"    ! default = "MOM_mask_table"
                                 !  4,6
                                 !  1,2
                                 !  3,6
-NIPROC = 1                      !
+NIPROC = 8                      !
                                 ! The number of processors in the x-direction. With STATIC_MEMORY_ this is set
                                 ! in MOM_memory.h at compile time.
-NJPROC = 1                      !
+NJPROC = 8                      !
                                 ! The number of processors in the y-direction. With STATIC_MEMORY_ this is set
                                 ! in MOM_memory.h at compile time.
-LAYOUT = 1, 1                   !
+LAYOUT = 8, 8                   !
                                 ! The processor layout that was actually used.
-IO_LAYOUT = 1, 1                ! default = 1, 1
+IO_LAYOUT = 1, 1                ! default = 1
                                 ! The processor layout to be used, or 0,0 to automatically set the io_layout to
                                 ! be the same as the layout.
 
@@ -65,10 +61,6 @@ BT_USE_WIDE_HALOS = True        !   [Boolean] default = True
                                 ! efficiency.
 BTHALO = 0                      ! default = 0
                                 ! The minimum halo size for the barotropic solver.
-BT_WIDE_HALO_MIN_STENCIL = 0    ! default = 0
-                                ! The minimum stencil width to use with the wide halo iterations. A nonzero
-                                ! value may be useful for debugging purposes, but at the cost of reducing the
-                                ! efficiency gain from BT_USE_WIDE_HALOS.
 !BT x-halo = 4                  !
                                 ! The barotropic x-halo size that is actually used.
 !BT y-halo = 4                  !
