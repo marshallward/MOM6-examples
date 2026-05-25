@@ -242,6 +242,9 @@ BBL_THICK_MIN = 0.1             !   [m] default = 0.0
 KV = 0.0                        !   [m2 s-1]
                                 ! The background kinematic viscosity in the interior. The molecular value, ~1e-6
                                 ! m2 s-1, may be used.
+TRIG_CHANNEL_DRAG_WIDTHS = False !   [Boolean] default = True
+                                ! If true, use trigonometric expressions to determine the fractional open
+                                ! interface lengths for concave topography.
 
 ! === module MOM_thickness_diffuse ===
 KHTH_MAX_CFL = 0.1              !   [nondimensional] default = 0.8
@@ -505,6 +508,12 @@ CHECK_DIFFUSIVE_CFL = True      !   [Boolean] default = False
                                 ! If true, use enough iterations the diffusion to ensure that the diffusive
                                 ! equivalent of the CFL limit is not violated.  If false, always use the greater
                                 ! of 1 or MAX_TR_DIFFUSION_CFL iteration.
+HOR_DIFF_ANSWER_DATE = 20250101 ! default = 99991231
+                                ! The vintage of the order of arithmetic to use for the tracer diffusion.
+                                ! Values of 20240330 or below recover the answers from the original form of the
+                                ! along-isopycnal mixed layer to interior mixing code, while higher values use
+                                ! mathematically equivalent expressions that recover rotational symmetry when
+                                ! DIFFUSE_ML_TO_INTERIOR is true.
 
 ! === module MOM_sum_output ===
 MAXTRUNC = 100000               !   [truncations save_interval-1] default = 0
