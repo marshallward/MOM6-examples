@@ -18,4 +18,5 @@ LDFLAGS = -mp=gpu -acc=gpu
 
 ## Optionally set the compute capability
 #FCFLAGS += -gpu=cc90
+#FMS_FCFLAGS += -gpu=cc90
 #LDFLAGS += -gpu=cc90
